@@ -286,11 +286,42 @@
             font-size: 150px;
             animation: fadeIn 1s ease-out;
         }
+
+        .start-page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .start-page-emoji {
+            font-size: 150px;
+            animation: bounce 2s infinite;
+        }
+
+        .start-page-text {
+            font-size: 24px;
+            color: #d63384;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <!-- الصفحة الافتتاحية -->
+    <div id="page0" class="page active">
+        <div class="container">
+            <div class="start-page-content">
+                <div class="start-page-emoji">💗</div>
+                <div class="hearts">💗 💗 💗</div>
+                <p class="start-page-text">هل أنت مستعدة؟</p>
+                <button class="btn" onclick="startJourney()" style="padding: 20px 60px; font-size: 22px;">اضغط هنا 💕</button>
+            </div>
+        </div>
+    </div>
+
     <!-- الصفحة الأولى -->
-    <div id="page1" class="page active">
+    <div id="page1" class="page">
         <div class="container">
             <div class="hello-kitty">🎀</div>
             <div class="hearts">💗 💗 💗</div>
@@ -392,6 +423,11 @@
     <script>
         let noClickCount = 0;
         let page3NoClickCount = 0;
+
+        function startJourney() {
+            document.getElementById('page0').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+        }
 
         function nextPage() {
             document.getElementById('page1').classList.remove('active');
