@@ -123,6 +123,162 @@
         .page.active {
             display: block;
         }
+
+        /* تأثيرات القط الخجول والبكاء */
+        .cat-container {
+            font-size: 120px;
+            margin-bottom: 30px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .cat-emoji {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        /* القط الخجول */
+        .cat-shy {
+            animation: catShy 1s ease-in-out infinite;
+        }
+
+        @keyframes catShy {
+            0%, 100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(0.95) translateY(5px);
+                opacity: 0.8;
+            }
+        }
+
+        /* بكاء خفيف */
+        .cat-cry-1 {
+            animation: catCry1 0.6s ease-in-out infinite;
+        }
+
+        @keyframes catCry1 {
+            0%, 100% {
+                transform: translateY(0) rotateZ(-2deg);
+            }
+            25% {
+                transform: translateY(-3px) rotateZ(2deg);
+            }
+            50% {
+                transform: translateY(0) rotateZ(-2deg);
+            }
+            75% {
+                transform: translateY(-3px) rotateZ(2deg);
+            }
+        }
+
+        /* بكاء متوسط */
+        .cat-cry-2 {
+            animation: catCry2 0.5s ease-in-out infinite;
+        }
+
+        @keyframes catCry2 {
+            0%, 100% {
+                transform: translateY(0) rotateZ(-3deg) scale(1);
+            }
+            25% {
+                transform: translateY(-5px) rotateZ(3deg) scale(1.02);
+            }
+            50% {
+                transform: translateY(0) rotateZ(-3deg) scale(1);
+            }
+            75% {
+                transform: translateY(-5px) rotateZ(3deg) scale(1.02);
+            }
+        }
+
+        /* بكاء كبير جداً */
+        .cat-cry-3 {
+            animation: catCry3 0.4s ease-in-out infinite;
+        }
+
+        @keyframes catCry3 {
+            0%, 100% {
+                transform: translateY(0) rotateZ(-5deg) scale(1);
+            }
+            20% {
+                transform: translateY(-8px) rotateZ(5deg) scale(1.05);
+            }
+            40% {
+                transform: translateY(0) rotateZ(-5deg) scale(1);
+            }
+            60% {
+                transform: translateY(-8px) rotateZ(5deg) scale(1.05);
+            }
+            80% {
+                transform: translateY(0) rotateZ(-5deg) scale(1);
+            }
+        }
+
+        /* قطرات الدموع */
+        .tears {
+            position: absolute;
+            font-size: 20px;
+        }
+
+        .tear {
+            animation: tearDrop 1s ease-in infinite;
+        }
+
+        @keyframes tearDrop {
+            0% {
+                opacity: 1;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        .tear1 {
+            animation-delay: 0s;
+            left: 35%;
+        }
+
+        .tear2 {
+            animation-delay: 0.3s;
+            left: 65%;
+        }
+
+        .tear3 {
+            animation-delay: 0.6s;
+            left: 35%;
+        }
+
+        .tear4 {
+            animation-delay: 0.9s;
+            left: 65%;
+        }
+
+        .tear5 {
+            animation-delay: 1.2s;
+            left: 35%;
+        }
+
+        .tear6 {
+            animation-delay: 1.5s;
+            left: 65%;
+        }
+
+        .buttons-container {
+            margin-top: 80px;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            min-height: 80px;
+        }
     </style>
 </head>
 <body>
@@ -145,12 +301,15 @@
     <!-- الصفحة الثانية -->
     <div id="page2" class="page">
         <div class="container">
-            <div class="hello-kitty">🥺</div>
+            <div class="cat-container">
+                <div class="cat-emoji cat-shy" id="catEmoji">😸</div>
+                <div class="tears" id="tearsContainer"></div>
+            </div>
             <div class="hearts">💗 💗 💗</div>
-            <p class="message" style="font-size: 24px; margin-top: 60px;">
+            <p class="message" style="font-size: 24px; margin-top: 60px;" id="questionText">
                 تحبيني؟
             </p>
-            <div style="margin-top: 80px; display: flex; gap: 30px; justify-content: center;">
+            <div class="buttons-container" id="buttonsContainer">
                 <button class="btn" id="yesBtn" onclick="respondYes()" style="padding: 18px 40px; font-size: 20px;">هيه بزاااااف 🥰</button>
                 <button class="btn" id="noBtn" onclick="respondNo()" style="padding: 18px 40px; font-size: 20px; background: linear-gradient(135deg, #ffa0c0, #ff69b4);">لا 💔</button>
             </div>
@@ -201,6 +360,68 @@
             document.getElementById('page1').classList.remove('active');
             document.getElementById('page2').classList.add('active');
             noClickCount = 0;
+            updateCatState();
+        }
+
+        function updateCatState() {
+            const catEmoji = document.getElementById('catEmoji');
+            const questionText = document.getElementById('questionText');
+            const tearsContainer = document.getElementById('tearsContainer');
+
+            // إزالة جميع الحركات السابقة
+            catEmoji.className = 'cat-emoji';
+            tearsContainer.innerHTML = '';
+
+            if (noClickCount === 0) {
+                // القط الخجول في البداية
+                catEmoji.textContent = '😸';
+                catEmoji.classList.add('cat-shy');
+            } else if (noClickCount === 1) {
+                // بكاء خفيف
+                catEmoji.textContent = '😿';
+                catEmoji.classList.add('cat-cry-1');
+                addTears();
+            } else if (noClickCount === 2) {
+                // بكاء متوسط
+                catEmoji.textContent = '😭';
+                catEmoji.classList.add('cat-cry-2');
+                addMoreTears();
+            } else if (noClickCount >= 3) {
+                // بكاء كبير جداً
+                catEmoji.textContent = '😭';
+                catEmoji.classList.add('cat-cry-3');
+                addManyTears();
+            }
+        }
+
+        function addTears() {
+            const tearsContainer = document.getElementById('tearsContainer');
+            tearsContainer.innerHTML = `
+                <div class="tear tear1">💧</div>
+                <div class="tear tear2">💧</div>
+            `;
+        }
+
+        function addMoreTears() {
+            const tearsContainer = document.getElementById('tearsContainer');
+            tearsContainer.innerHTML = `
+                <div class="tear tear1">💧</div>
+                <div class="tear tear2">💧</div>
+                <div class="tear tear3">💧</div>
+                <div class="tear tear4">💧</div>
+            `;
+        }
+
+        function addManyTears() {
+            const tearsContainer = document.getElementById('tearsContainer');
+            tearsContainer.innerHTML = `
+                <div class="tear tear1">💧</div>
+                <div class="tear tear2">💧</div>
+                <div class="tear tear3">💧</div>
+                <div class="tear tear4">💧</div>
+                <div class="tear tear5">💧</div>
+                <div class="tear tear6">💧</div>
+            `;
         }
 
         function respondYes() {
@@ -212,23 +433,41 @@
             noClickCount++;
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
-            const message = document.querySelector('.message');
+            const buttonsContainer = document.getElementById('buttonsContainer');
+            const message = document.getElementById('questionText');
+
+            // زيادة حجم زر "هيه بزاااااف"
+            const currentScale = 1 + (noClickCount * 0.25);
+            yesBtn.style.transform = `scale(${currentScale})`;
+
+            // تصغير وإخفاء زر "لا" بعد 5 ضغطات
+            if (noClickCount <= 5) {
+                const scaleNo = 1 - (noClickCount * 0.15);
+                noBtn.style.transform = `scale(${scaleNo})`;
+                noBtn.style.transition = 'all 0.3s ease';
+            }
 
             if (noClickCount === 1) {
-                // أول ضغطة على لا
-                noBtn.style.transform = 'scale(0.7)';
-                yesBtn.style.transform = 'scale(1.3)';
                 message.textContent = 'متاكدة؟ 🥺';
                 yesBtn.textContent = 'نعم هيه بزاااااف 🥰';
             } else if (noClickCount === 2) {
-                noBtn.style.transform = 'scale(0.5)';
-                yesBtn.style.transform = 'scale(1.5)';
                 message.textContent = 'واااااه متاكدة؟؟؟ 🥺💔';
-            } else if (noClickCount >= 3) {
-                noBtn.style.pointerEvents = 'none';
-                noBtn.style.opacity = '0.3';
-                respondYes();
+            } else if (noClickCount === 3) {
+                message.textContent = 'من فضلك قولي نعم 😭💔';
+            } else if (noClickCount === 4) {
+                message.textContent = 'أنا بكيت من الألم 😭😭💔';
+            } else if (noClickCount === 5) {
+                message.textContent = 'اخر فرصة! 😭😭😭💔';
+                noBtn.style.opacity = '0.5';
+            } else if (noClickCount === 6) {
+                // إخفاء زر لا بالكامل بعد 5 ضغطات
+                noBtn.style.display = 'none';
+                message.textContent = 'أنا بكيت براك 😭💔';
+                // توسيط زر "هيه بزاااااف" وحده
+                buttonsContainer.style.justifyContent = 'center';
             }
+
+            updateCatState();
         }
     </script>
 </body>
