@@ -279,6 +279,19 @@
             flex-wrap: wrap;
             min-height: 80px;
         }
+
+        .image-container {
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 192, 203, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
     </style>
 </head>
 <body>
@@ -316,8 +329,37 @@
         </div>
     </div>
 
-    <!-- الصفحة الثالثة -->
+    <!-- الصفحة الثالثة - بعد ضغط "هيه بزاااااف" -->
     <div id="page3" class="page">
+        <div class="container">
+            <div class="hello-kitty">🥺</div>
+            <div class="hearts">💗 💗 💗</div>
+            <p class="message" style="font-size: 24px; margin-top: 60px;">
+                توحشتيني؟🥺
+            </p>
+            <div style="margin-top: 80px; display: flex; gap: 30px; justify-content: center;">
+                <button class="btn" onclick="goToPage4()" style="padding: 18px 40px; font-size: 20px;">نعم توحشتيني بزاف 💔</button>
+                <button class="btn" onclick="goToPage2()" style="padding: 18px 40px; font-size: 20px; background: linear-gradient(135deg, #ffa0c0, #ff69b4);">رجعني 🥺</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- الصفحة الرابعة - الصورة والرسالة -->
+    <div id="page4" class="page">
+        <div class="container">
+            <div class="image-container">
+                <img src="Love.jpg" alt="صورتك الجميلة" style="width: 300px; height: auto;">
+            </div>
+            <div class="hearts" style="font-size: 50px;">💗 💗 💗</div>
+            <p class="message" style="font-size: 28px; color: #ff1493; margin-top: 40px;">
+                بصح انا توحشتك🥺💔
+            </p>
+            <button class="btn" onclick="goToPage5()" style="margin-top: 60px;">أنا كمان 💗</button>
+        </div>
+    </div>
+
+    <!-- الصفحة الخامسة - النهاية السعيدة -->
+    <div id="page5" class="page">
         <div class="container">
             <div style="font-size: 120px; animation: spin 3s linear infinite; margin-bottom: 30px;">😻</div>
             <div class="hearts" style="font-size: 50px;">💗 💗 💗</div>
@@ -361,6 +403,21 @@
             document.getElementById('page2').classList.add('active');
             noClickCount = 0;
             updateCatState();
+        }
+
+        function goToPage2() {
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+        }
+
+        function goToPage4() {
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page4').classList.add('active');
+        }
+
+        function goToPage5() {
+            document.getElementById('page4').classList.remove('active');
+            document.getElementById('page5').classList.add('active');
         }
 
         function updateCatState() {
@@ -440,9 +497,9 @@
             const currentScale = 1 + (noClickCount * 0.25);
             yesBtn.style.transform = `scale(${currentScale})`;
 
-            // تصغير وإخفاء زر "لا" بعد 5 ضغطات
-            if (noClickCount <= 5) {
-                const scaleNo = 1 - (noClickCount * 0.15);
+            // تصغير وإخفاء زر "لا" بعد 6 ضغطات
+            if (noClickCount <= 6) {
+                const scaleNo = 1 - (noClickCount * 0.145);
                 noBtn.style.transform = `scale(${scaleNo})`;
                 noBtn.style.transition = 'all 0.3s ease';
             }
@@ -452,6 +509,12 @@
                 yesBtn.textContent = 'نعم هيه بزاااااف 🥰';
             } else if (noClickCount === 2) {
                 message.textContent = 'واااااه متاكدة؟؟؟ 🥺💔';
+                // الانتقال إلى صفحة الصورة بعد ضغطة اللا الثانية
+                setTimeout(() => {
+                    document.getElementById('page2').classList.remove('active');
+                    document.getElementById('page4').classList.add('active');
+                }, 500);
+                return;
             } else if (noClickCount === 3) {
                 message.textContent = 'من فضلك قولي نعم 😭💔';
             } else if (noClickCount === 4) {
@@ -460,7 +523,7 @@
                 message.textContent = 'اخر فرصة! 😭😭😭💔';
                 noBtn.style.opacity = '0.5';
             } else if (noClickCount === 6) {
-                // إخفاء زر لا بالكامل بعد 5 ضغطات
+                // إخفاء زر لا بالكامل بعد 6 ضغطات
                 noBtn.style.display = 'none';
                 message.textContent = 'أنا بكيت براك 😭💔';
                 // توسيط زر "هيه بزاااااف" وحده
